@@ -115,7 +115,13 @@ defmodule Games.Worlde do
         same_chars_indexes =
             Enum.map(guess, fn g ->
                 if g in answer  do
-                    find_idxs(guess, Enum.with_index(answer))
+
+                    if find_idxs(guess, Enum.with_index(answer)) == []do
+                        find_idxs((guess--[hd guess]), Enum.with_index(answer))
+                    end
+
+                else
+                  nil
                 end
             end)
             # |>Enum.with_index()
