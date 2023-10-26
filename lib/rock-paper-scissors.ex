@@ -3,7 +3,7 @@ defmodule Games.RockPaperScissors do
 
   def play do
     ai_choise = Enum.random(@variants)
-    player_choise = String.trim(IO.gets("Choose rock, paper, or scissors: "))
+    player_choise = String.trim(IO.gets("Choose [rock, paper,scissors]: "))
 
     IO.inspect(ai_choise, label: "AI chose");
 
