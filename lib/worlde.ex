@@ -1,10 +1,10 @@
 defmodule Games.Worlde do
     @lifes 6
     def get_user_data do
-        answer = IO.gets("gues a word of 5 letters: ")
+        answer = IO.gets("Guess a five-letter word: ")
 
         if String.length(answer) < 6 || String.length(answer) > 6 do
-            IO.puts("Enter a string exactly of 5 letters! \n")
+            IO.puts("#{IO.ANSI.red()}\nEnter a string exactly of 5 letters! #{IO.ANSI.default_color()}\n")
             get_user_data()
         else
             answer
@@ -22,7 +22,7 @@ defmodule Games.Worlde do
 
 
     def feedback(answer,guess)  do
-        IO.inspect(answer, label: "answ")
+        IO.inspect(answer, label: "answe")
         IO.inspect(guess, label: "guess")
 
         compare(answer, guess)
@@ -32,14 +32,26 @@ defmodule Games.Worlde do
 
     def compare(answer, guess) do
 
-        for a <- answer, g <- guess do
-            cond do
-              a == g -> IO.puts(:yelow)
-              true -> IO.puts("none")
+        chunked =
+            for a <- answer, g <- guess do
+                {a, g}
             end
-            {a, g}
-        end
+            |>Enum.chunk_every(5)
+            |>Enum.with_index()
 
+        Enum.map(chunked, fn char_comparison->
+            index = elem(char_comparison, 1)
+            comparison = elem(char_comparison, 0)
+            Enum.at(comparison,index)
+        end)
+        |>
+        Enum.map(fn two_chars->
+            if elem(two_chars, 0) === elem(two_chars, 1) do
+              :green
+            else
+                :gray
+            end
+        end)
 
     end
 
@@ -47,7 +59,8 @@ defmodule Games.Worlde do
     def play do
         guess = String.to_charlist(String.slice(get_user_data(), 0..4))
 
-        answer = generate_string()
+        # answer = generate_string()
+        answer = ~c"asdfg"
 
         feedback(answer, guess)
 
