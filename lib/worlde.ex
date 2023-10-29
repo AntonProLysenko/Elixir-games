@@ -27,26 +27,26 @@ defmodule Games.Worlde do
     end
 
 
-    def find_same_char_indexes([],answer), do: nil
+    # def find_same_char_indexes([],answer), do: nil
 
-    def find_same_char_indexes([ ghd | gtl ], answer)do
-        answer = [head|tail]
+    # def find_same_char_indexes([ ghd | gtl ], answer)do
+    #     answer = [head|tail]
 
-        return = []
-        # counter = 0
-        index_answer =
+    #     return = []
+    #     # counter = 0
+    #     index_answer =
 
-        if elem(ghd,0) in answer && !(elem(ghd,1) in return)  do
-            # counter=counter+1
-            return = [elem(ghd,1)|return]
-            find_same_char_indexes(gtl, answer)
-        else
-            find_same_char_indexes(gtl, answer)
-        end
+    #     if elem(ghd,0) in answer && !(elem(ghd,1) in return)  do
+    #         # counter=counter+1
+    #         return = [elem(ghd,1)|return]
+    #         find_same_char_indexes(gtl, answer)
+    #     else
+    #         find_same_char_indexes(gtl, answer)
+    #     end
 
-        return
+    #     return
 
-    end
+    # end
 
 
 
@@ -131,8 +131,8 @@ defmodule Games.Worlde do
 
     def play do
         guess = String.to_charlist(String.slice(get_user_data(), 0..4))
-        # answer = generate_string()
-        answer = ~c"aaabb"
+        answer = generate_string()
+        # answer = ~c"aaabb"
         # answer = ~c"asdfg"
 
         feedback(answer, guess)
