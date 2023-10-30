@@ -91,7 +91,7 @@ defmodule Games.Worlde do
                 if elem(two_chars, 0) === elem(two_chars, 1) do
                     :green
                 else
-                    :gray
+                    :grey
                 end
             end)
 
@@ -116,8 +116,8 @@ defmodule Games.Worlde do
 
          Enum.with_index(color_matching_list)
         |> Enum.map(fn {color, index} ->
-            if index in same_chars_indexes and color != :green and color != :yelow do
-                :yelow
+            if index in same_chars_indexes and color != :green and color != :yellow do
+                :yellow
             else
                 color
             end
