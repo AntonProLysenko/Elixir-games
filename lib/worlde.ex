@@ -1,17 +1,19 @@
 defmodule Games.Worlde do
     @moduledoc """
-        Game where user has to guess a 5-char generated string
-        User has 6 tries before the game is over
+    Game where user has to guess a 5-char generated string
+
+    User has 6 tries before the game is over
     """
     @lifes 6
 
     @doc """
-        gets a user's gues from the console and checks if it has exactly 5 chars
+    gets a user's gues from the console and checks if it has exactly 5 chars
 
     ##Examples
-        get_user_data()
-        "asdfg"
+        # iex> get_user_data()
+        # "asdfg"
     """
+
     def get_user_data do
         answer = IO.gets("Guess a five-letter word: ")
 
@@ -27,9 +29,9 @@ defmodule Games.Worlde do
     @doc """
         generates a charlist of 5 lowercase chars
 
-    ##Examples
-        generate_string()
-        ~c"asdfg"
+    # ##Examples
+    #    iex> generate_string()
+    #     ~c"asdfg"
     """
     def generate_string do
         Enum.map(1..5, fn _ ->
@@ -43,14 +45,15 @@ defmodule Games.Worlde do
         acepts two charlist-only arguments
 
     ##Examples
-        Games.Worlde.feedback(~c"aaaaa", ~c"aaaaa")
-            [:green, :green, :green, :green, :green]
-        Games.Worlde.feedback(~c"aaaaa", ~c"aaaab")
-            [:green, :green, :green, :green, :grey]
-        Games.Worlde.feedback(~c"abdce", ~c"edcba")
-            [:yellow, :yellow, :yellow, :yellow, :yellow]
+        iex> Games.Worlde.feedback(~c"aaaaa", ~c"aaaaa")
+        [:green, :green, :green, :green, :green]
+        iex> Games.Worlde.feedback(~c"aaaaa", ~c"aaaab")
+        [:green, :green, :green, :green, :grey]
+        iex> Games.Worlde.feedback(~c"abdce", ~c"edcba")
+        [:yellow, :yellow, :yellow, :yellow, :yellow]
 
     """
+    @spec feedback(list, list) :: list
     def feedback(answer,guess)  do
         IO.inspect(answer, label: "answe")
         IO.inspect(guess, label: "guess")
@@ -95,6 +98,7 @@ defmodule Games.Worlde do
         color_matching_list - is a var where :green and :grey atoms are assigned
         and then  color_matching_list is getting merged with  same_chars_indexes excluding :green values
     """
+    @spec feedback(list, list) :: list()
     def compare(answer, guess) do
         indexed_answer = Enum.with_index(answer)
 
@@ -174,10 +178,16 @@ defmodule Games.Worlde do
         function that manage and runs the whole game
         gives winning and loosing statements
     """
+
     def play(lifes\\ @lifes, answer\\generate_string()) do
 
         if lifes >=1 do
-            IO.inspect(lifes, label: "Lifes")
+            lifes_symbols =
+                Enum.map(1..lifes, fn _life ->
+                    "♥"
+                end)
+                |>Enum.join(" ")
+            IO.inspect(lifes_symbols, label: "Lifes")
 
             guess = String.to_charlist(String.slice(get_user_data(), 0..4))
 

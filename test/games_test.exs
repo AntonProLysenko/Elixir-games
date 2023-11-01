@@ -2,7 +2,7 @@ ExUnit.start(auto_run: false)
 
 defmodule GamesTest do
   use ExUnit.Case
-  doctest Games
+  doctest Games.Worlde
 
   test "greets the world" do
     assert Games.hello() == :world
