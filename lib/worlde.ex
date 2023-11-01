@@ -53,7 +53,7 @@ defmodule Games.Worlde do
         [:yellow, :yellow, :yellow, :yellow, :yellow]
 
     """
-    @spec feedback(list, list) :: list
+    @spec feedback(list(), list()) :: list()
     def feedback(answer,guess)  do
         IO.inspect(answer, label: "answe")
         IO.inspect(guess, label: "guess")
@@ -98,7 +98,7 @@ defmodule Games.Worlde do
         color_matching_list - is a var where :green and :grey atoms are assigned
         and then  color_matching_list is getting merged with  same_chars_indexes excluding :green values
     """
-    @spec feedback(list, list) :: list()
+    @spec compare(list(), list()) :: list()
     def compare(answer, guess) do
         indexed_answer = Enum.with_index(answer)
 
