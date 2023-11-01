@@ -1,7 +1,7 @@
 defmodule Games.Worlde do
     @moduledoc """
-        game where user has to guess a 5-char generated string
-        user has 6 tries before the game is over
+        Game where user has to guess a 5-char generated string
+        User has 6 tries before the game is over
     """
     @lifes 6
 
@@ -45,10 +45,8 @@ defmodule Games.Worlde do
     ##Examples
         Games.Worlde.feedback(~c"aaaaa", ~c"aaaaa")
             [:green, :green, :green, :green, :green]
-
         Games.Worlde.feedback(~c"aaaaa", ~c"aaaab")
             [:green, :green, :green, :green, :grey]
-
         Games.Worlde.feedback(~c"abdce", ~c"edcba")
             [:yellow, :yellow, :yellow, :yellow, :yellow]
 
