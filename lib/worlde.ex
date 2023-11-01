@@ -1,5 +1,17 @@
 defmodule Games.Worlde do
+    @moduledoc """
+        game where user has to guess a 5-char generated string
+        user has 6 tries before the game is over
+    """
     @lifes 6
+
+    @doc """
+        gets a user's gues from the console and checks if it has exactly 5 chars
+
+    ##Examples
+        get_user_data()
+        "asdfg"
+    """
     def get_user_data do
         answer = IO.gets("Guess a five-letter word: ")
 
@@ -12,13 +24,35 @@ defmodule Games.Worlde do
 
     end
 
+    @doc """
+        generates a charlist of 5 lowercase chars
 
+    ##Examples
+        generate_string()
+        ~c"asdfg"
+    """
     def generate_string do
         Enum.map(1..5, fn _ ->
             Enum.random(?a..?z)
         end)
     end
 
+    @doc """
+        gives a hint of answer and a guess.
+        Runs the compare function that retuns a list of color :atoms
+        acepts two charlist-only arguments
+
+    ##Examples
+        Games.Worlde.feedback(~c"aaaaa", ~c"aaaaa")
+            [:green, :green, :green, :green, :green]
+
+        Games.Worlde.feedback(~c"aaaaa", ~c"aaaab")
+            [:green, :green, :green, :green, :grey]
+
+        Games.Worlde.feedback(~c"abdce", ~c"edcba")
+            [:yellow, :yellow, :yellow, :yellow, :yellow]
+
+    """
     def feedback(answer,guess)  do
         IO.inspect(answer, label: "answe")
         IO.inspect(guess, label: "guess")
@@ -50,7 +84,19 @@ defmodule Games.Worlde do
 
 
 
+    @doc """
+        main function of the game
+        compares two charlists and return a list of color-atoms
 
+        color_matching_list is a return
+            colors in color_matching_list depends:
+                if the char in guess in a right place -> it replaces the char with a :green atom
+                if a char in guess not found in the answer -> it replaces with a :grey atom
+                if a char in guess exists in answer but placed in a wrong place -> it replaces with a :yellow atom
+        same_chars_indexes - is a var where we are saving all the matching chars's indexes
+        color_matching_list - is a var where :green and :grey atoms are assigned
+        and then  color_matching_list is getting merged with  same_chars_indexes excluding :green values
+    """
     def compare(answer, guess) do
         indexed_answer = Enum.with_index(answer)
 
@@ -69,7 +115,7 @@ defmodule Games.Worlde do
                 end
             end)
             |>Enum.filter(& !is_nil(&1))
-            IO.inspect(same_chars_indexes, label: "Indexes")
+            # IO.inspect(same_chars_indexes, label: "Indexes")
 
 
         chunked =
@@ -77,11 +123,11 @@ defmodule Games.Worlde do
                 {a, g}
             end
             |>Enum.chunk_every(5)
-            # |>IO.inspect(label: "Whole")
+
 
 
         color_matching_list =
-            Enum.map(chunked|>Enum.with_index(), fn char_comparison->
+            Enum.map(Enum.with_index(chunked), fn char_comparison->
                 index = elem(char_comparison, 1)
                 comparison = elem(char_comparison, 0)
                 Enum.at(comparison,index)
@@ -116,31 +162,31 @@ defmodule Games.Worlde do
 
          Enum.with_index(color_matching_list)
         |> Enum.map(fn {color, index} ->
-            if index in same_chars_indexes and color != :green and color != :yellow do
+            if index in same_chars_indexes and color === :grey do
                 :yellow
             else
                 color
             end
         end)
-
-
-
     end
 
 
 
+    @doc """
+        function that manage and runs the whole game
+        gives winning and loosing statements
+    """
     def play(lifes\\ @lifes, answer\\generate_string()) do
+
         if lifes >=1 do
             IO.inspect(lifes, label: "Lifes")
 
             guess = String.to_charlist(String.slice(get_user_data(), 0..4))
-            # answer = generate_string()
-            # answer = ~c"aaabb"
-            # answer = ~c"asdfg"
+
             colors = feedback(answer, guess)
             indexed_colors = Enum.with_index(colors)
 
-            IO.inspect(feedback(answer, guess))
+
 
             painted = Enum.map(indexed_colors, fn color->
                 case elem(color,0) do
@@ -156,16 +202,11 @@ defmodule Games.Worlde do
                 remain_lifes = lifes - 1
                 play(remain_lifes, answer)
             else
-                IO.puts("You Won!")
+                IO.puts("#{IO.ANSI.green()} \nYou Won! #{IO.ANSI.default_color()}\n")
             end
 
         else
-          IO.puts("Game Over!")
+          IO.puts("#{IO.ANSI.red()}\nGame Over! #{IO.ANSI.default_color()}\n")
         end
-
-
-        # end
-
-
     end
 end
