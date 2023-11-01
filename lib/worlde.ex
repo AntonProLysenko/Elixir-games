@@ -131,11 +131,20 @@ defmodule Games.Worlde do
 
     def play do
         guess = String.to_charlist(String.slice(get_user_data(), 0..4))
-        answer = generate_string()
+        # answer = generate_string()
         # answer = ~c"aaabb"
-        # answer = ~c"asdfg"
+        answer = ~c"asdfg"
+        colors = Enum.with_index(feedback(answer, guess))
+        # indexed_guess = Enum.with_index(guess)
 
-        feedback(answer, guess)
+        painted = Enum.map(colors, fn color->
+            case elem(color,0) do
+              :grey -> "#{IO.ANSI.light_black()} #{[Enum.at(guess, elem(color,1))]} #{ IO.ANSI.default_color()}"
+              :green -> "#{IO.ANSI.green()} #{List.to_string([Enum.at(guess, elem(color,1))])}#{ IO.ANSI.default_color()}"
+              :yellow -> "#{IO.ANSI.yellow()} #{[Enum.at(guess, elem(color,1))]} #{IO.ANSI.default_color()}"
+            end
+        end)
+        IO.puts(painted)
 
     end
 end
