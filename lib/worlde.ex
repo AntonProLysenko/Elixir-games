@@ -211,10 +211,12 @@ defmodule Games.Worlde do
                 play(remain_lifes, answer)
             else
                 IO.puts("#{IO.ANSI.green()} \nYou Won! #{IO.ANSI.default_color()}\n")
+                Games.main(1)
             end
 
         else
           IO.puts("#{IO.ANSI.red()}\nGame Over! #{IO.ANSI.default_color()}\n")
+          Games.main(1)
         end
     end
 end

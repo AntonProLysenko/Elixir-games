@@ -22,7 +22,6 @@ defmodule Games do
 
         enter 'stop' to exit: \n")
 
-    IO.inspect(player_input, label: "Input")
     game =
       case player_input do
         "1\n" -> elem(Integer.parse(player_input),0)
@@ -41,6 +40,8 @@ defmodule Games do
   end
 
 
+
+
   def play(args) do
 
     {opts, _word, _error} = OptionParser.parse(args, switches: [game: :integer])
@@ -52,8 +53,8 @@ defmodule Games do
       _ -> IO.inspect("Error #{opts[:game]}")
     end
 
-
-
   end
+
+
 
 end

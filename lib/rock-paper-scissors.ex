@@ -9,14 +9,14 @@ defmodule Games.RockPaperScissors do
 
     case {ai_choise,player_choise} do
 
-      {"rock", "paper"} -> IO.puts("#{IO.ANSI.green()}You win!\n #{IO.ANSI.default_color()}#{player_choise} beats #{ai_choise}.")
-      {"paper", "scissors"}-> IO.puts("#{IO.ANSI.green()}You win!\n #{IO.ANSI.default_color()}#{player_choise} beats #{ai_choise}.")
-      {"scissors", "rock"}-> IO.puts("#{IO.ANSI.green()}You win!\n #{IO.ANSI.default_color()}#{player_choise} beats #{ai_choise}.")
+      {"rock", "paper"} -> IO.puts("#{IO.ANSI.green()}You win!\n #{IO.ANSI.default_color()}#{player_choise} beats #{ai_choise}.");Games.main(1)
+      {"paper", "scissors"}-> IO.puts("#{IO.ANSI.green()}You win!\n #{IO.ANSI.default_color()}#{player_choise} beats #{ai_choise}.");Games.main(1)
+      {"scissors", "rock"}-> IO.puts("#{IO.ANSI.green()}You win!\n #{IO.ANSI.default_color()}#{player_choise} beats #{ai_choise}.");Games.main(1)
 
-      {"paper", "rock"}-> IO.puts("#{IO.ANSI.red()}You lose!\n #{IO.ANSI.default_color} #{ai_choise} beats #{player_choise}.")
-      {"scissors", "paper"}-> IO.puts("#{IO.ANSI.red()}You lose!\n #{IO.ANSI.default_color} #{ai_choise} beats #{player_choise}.")
-      {"rock", "scissors"}-> IO.puts("#{IO.ANSI.red()}You lose!\n #{IO.ANSI.default_color} #{ai_choise} beats #{player_choise}.")
-       {_, _}-> IO.puts("#{IO.ANSI.blue()}Draw!")
+      {"paper", "rock"}-> IO.puts("#{IO.ANSI.red()}You lose!\n #{IO.ANSI.default_color} #{ai_choise} beats #{player_choise}.");Games.main(1)
+      {"scissors", "paper"}-> IO.puts("#{IO.ANSI.red()}You lose!\n #{IO.ANSI.default_color} #{ai_choise} beats #{player_choise}.");Games.main(1)
+      {"rock", "scissors"}-> IO.puts("#{IO.ANSI.red()}You lose!\n #{IO.ANSI.default_color} #{ai_choise} beats #{player_choise}.");Games.main(1)
+       {_, _}-> IO.puts("#{IO.ANSI.blue()}Draw!#{IO.ANSI.default_color}");Games.main(1)
     end
 
   end
