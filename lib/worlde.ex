@@ -182,12 +182,13 @@ defmodule Games.Worlde do
     def play(lifes\\ @lifes, answer\\generate_string()) do
 
         if lifes >=1 do
+            IO.puts("\n-----======#{IO.ANSI.red()} Wordle #{IO.ANSI.default_color()}======----- \n")
             lifes_symbols =
                 Enum.map(1..lifes, fn _life ->
                     "♥"
                 end)
                 |>Enum.join(" ")
-            IO.inspect(lifes_symbols, label: "Lifes")
+            IO.puts("Lifes: "<>IO.ANSI.red()<>lifes_symbols<>IO.ANSI.default_color())
 
             guess = String.to_charlist(String.slice(get_user_data(), 0..4))
 

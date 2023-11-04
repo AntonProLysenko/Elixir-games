@@ -14,8 +14,9 @@ defmodule Games do
   """
 
   def main(_args) do
+    IO.puts("\n\n\n\n#{IO.ANSI.blue_background(); IO.ANSI.font_9()}-----======#{IO.ANSI.green()} Welcome #{IO.ANSI.red()}To Anton's #{IO.ANSI.yellow()}Game Pack! #{IO.ANSI.default_color()}======----- \n")
     player_input = IO.gets(
-      "What game would you like to play?
+      "\n\nWhat game would you like to play?
         1. Guessing Game
         2. Rock Paper Scissors
         3. Wordle
