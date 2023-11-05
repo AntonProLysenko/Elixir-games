@@ -15,13 +15,12 @@ defmodule Games.Worlde do
     """
 
     def get_user_data do
-        answer = IO.gets("Guess a five-letter word: ")
+        guess = IO.gets("Guess a five-letter word: ")|>IO.inspect(label: "Guess")
 
-        if String.length(answer) < 6 || String.length(answer) > 6 do
-            IO.puts("#{IO.ANSI.red()}\nEnter a string exactly of 5 letters! #{IO.ANSI.default_color()}\n")
-            get_user_data()
-        else
-            answer
+        cond do
+            guess == "stop\n" -> Games.main(1)
+            String.length(guess) < 6 || String.length(guess) > 6 -> IO.puts("#{IO.ANSI.red()}\nEnter a string exactly of 5 letters! #{IO.ANSI.default_color()}\n"); get_user_data()
+            String.length(guess) === 6 -> guess
         end
 
     end
@@ -34,9 +33,10 @@ defmodule Games.Worlde do
     #     ~c"asdfg"
     """
     def generate_string do
-        Enum.map(1..5, fn _ ->
-            Enum.random(?a..?z)
-        end)
+        # Enum.map(1..5, fn _ ->
+        #     Enum.random(?a..?z)
+        # end)
+         ~c"aaabb"
     end
 
     @doc """
@@ -100,14 +100,13 @@ defmodule Games.Worlde do
     """
     @spec compare(list(), list()) :: list()
     def compare(answer, guess) do
-        indexed_answer = Enum.with_index(answer)
 
         same_chars_indexes =
             Enum.map(guess, fn g ->
                 if g in answer  do
-                    Enum.find(indexed_answer, fn {char, _index} ->
-                         char == g end)
-                    |>elem(0)
+                    Enum.find_index(answer, fn char ->
+                            char == g
+                    end)
                 end
             end)
             |>Enum.with_index()
@@ -117,7 +116,6 @@ defmodule Games.Worlde do
                 end
             end)
             |>Enum.filter(& !is_nil(&1))
-            # IO.inspect(same_chars_indexes, label: "Indexes")
 
 
         chunked =
@@ -183,6 +181,7 @@ defmodule Games.Worlde do
 
         if lifes >=1 do
             IO.puts("\n-----======#{IO.ANSI.red()} Wordle #{IO.ANSI.default_color()}======----- \n")
+
             lifes_symbols =
                 Enum.map(1..lifes, fn _life ->
                     "♥"

@@ -5,11 +5,19 @@ defmodule Games.RockPaperScissors do
     IO.puts("-----======#{IO.ANSI.green()} Rock #{IO.ANSI.red()}Paper #{IO.ANSI.blue()}Scissors #{IO.ANSI.default_color}======----- \n \n \n")
 
     ai_choise = Enum.random(@variants)
-    player_choise = String.trim(IO.gets("Choose
-      rock
-      paper
-      scissors
+    short_player_choise = String.trim(IO.gets("Enter
+      r - for rock
+      p - for paper
+      s - for scissors
       Type your Choise: "))
+
+    player_choise =
+      case short_player_choise do
+        "stop"-> Games.main(1)
+        "r" -> "rock"
+        "p" ->"paper"
+        "s" -> "scissors"
+      end
 
     IO.inspect(ai_choise, label: "AI chose");
 

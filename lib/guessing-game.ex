@@ -1,7 +1,13 @@
 defmodule Games.GuessingGame do
   def play(ai_choise\\Enum.random(1..10)) do
     IO.puts("\n-----======#{IO.ANSI.yellow()} Guess a Number #{IO.ANSI.default_color()}======----- \n")
-    player_choise = elem(Integer.parse(IO.gets("Guess a number between 1 and 10: ")),0)
+    real_players_choise = IO.gets("Guess a number between 1 and 10: ")
+
+    if real_players_choise == "stop\n" do
+       Games.main(1)
+    end
+
+    player_choise = elem(Integer.parse(real_players_choise),0)
     computer_choise = ai_choise
 
 
