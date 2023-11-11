@@ -15,6 +15,12 @@ defmodule GamesTest do
     assert Games.Worlde.feedback(~c"aaabb", ~c"xaaaa") == [:grey, :green, :green, :yellow, :grey]
   end
 
+  test "used_up?" do
+    assert Games.Worlde.used_up?(4, ?a, ~c"xaaaa", ~c"aaabb")
+    refute Games.Worlde.used_up?(0, ?a, ~c"abdce", ~c"edcba")
+    refute Games.Worlde.used_up?(3, ?a, ~c"xaaaa", ~c"aaabb")
+  end
+
   # test "gives list of indexes of all matching chars" do
   #   # assert Games.Worlde.find_idxs(, ~c""")
   # end
