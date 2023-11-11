@@ -61,27 +61,38 @@ defmodule Games.Worlde do
         compare(answer, guess)
     end
 
+    defp find_idxs(guess, answer , return\\[])
 
-    # def find_same_char_indexes([],answer), do: nil
+    defp find_idxs([], _ , return), do: return
+    # defp find_idxs([_ahd | atl], answer, return) when length(answer)==0, do: find_idxs(atl, answer, return)
+    # defp find_idxs(guess,[] = answer, return), do: find_idxs(guess, answer, return )
+    defp find_idxs(_guess,[], return), do: return
 
-    # def find_same_char_indexes([ ghd | gtl ], answer)do
-    #     answer = [head|tail]
 
-    #     return = []
-    #     # counter = 0
-    #     index_answer =
+    defp find_idxs([ghd | gtl], answer = [ahd| atl], return) do
 
-    #     if elem(ghd,0) in answer && !(elem(ghd,1) in return)  do
-    #         # counter=counter+1
-    #         return = [elem(ghd,1)|return]
-    #         find_same_char_indexes(gtl, answer)
-    #     else
-    #         find_same_char_indexes(gtl, answer)
-    #     end
+            IO.inspect([ahd| atl], label: "indexed answ")
+            IO.inspect(ahd, label: "compared AHD")
+            IO.inspect(ghd, label: "compared G")
+            IO.inspect(return, label: "RETURN")
+            IO.inspect(length(answer), label: "length ANSW")
 
-    #     return
+            # if answer == [] do
+            #   find_idxs(gtl, [ahd| atl], return)
+            # end
 
-    # end
+            cond do
+                elem(ahd, 0) == ghd ->
+                    IO.puts("MATCH!!!")
+                    IO.puts(elem(ahd, 1))
+                    # elem(ahd,1)
+                    find_idxs(gtl, atl, return ++ [elem(ahd,1)])
+
+                elem(ahd, 0) !== ghd ->
+                    find_idxs([ghd | gtl], atl, return)
+            end
+        return
+    end
 
 
 
@@ -104,19 +115,17 @@ defmodule Games.Worlde do
         same_chars_indexes =
             Enum.map(guess, fn g ->
                 if g in answer  do
-                    Enum.find_index(answer, fn char ->
-                            char == g
-                    end)
+                    find_idxs(guess, Enum.with_index(answer))
                 end
             end)
-            |>Enum.with_index()
-            |> Enum.map(fn el ->
-                if elem(el,0) !== nil do
-                    elem(el,1)
-                end
-            end)
-            |>Enum.filter(& !is_nil(&1))
-
+            # |>Enum.with_index()
+            # |> Stream.map(fn {num, idx} ->
+            #     if num !== nil do
+            #         idx
+            #     end
+            # end)
+            # |>Enum.filter(& !is_nil(&1))
+            IO.inspect(same_chars_indexes, label: "IDXS")
 
         chunked =
             for a <- answer,  g <- guess do
