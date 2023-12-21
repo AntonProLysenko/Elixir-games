@@ -5,19 +5,19 @@ defmodule Games.GuessingGame do
 
     if real_players_choise == "stop\n" do
        Games.main(pid)
+    else
+      player_choise = elem(Integer.parse(real_players_choise),0)
+      computer_choise = ai_choise
+      # IO.puts(computer_choise)
+
+
+      cond do
+        player_choise < computer_choise -> IO.puts("#{IO.ANSI.red()}Too Low!\n"); IO.puts("#{IO.ANSI.default_color()}Try one more time");play(computer_choise, pid)
+        player_choise > computer_choise -> IO.puts("#{IO.ANSI.blue()}Too High!\n"); IO.puts("#{IO.ANSI.default_color()}Try one more time"); play(computer_choise, pid)
+        player_choise == computer_choise -> IO.puts("#{IO.ANSI.green()}You Won!#{IO.ANSI.default_color()}"); Games.Score.add_points(pid, 5); Games.main(pid);
+      end
+
     end
-
-    player_choise = elem(Integer.parse(real_players_choise),0)
-    computer_choise = ai_choise
-    IO.puts(computer_choise)
-
-
-    cond do
-      player_choise < computer_choise -> IO.puts("#{IO.ANSI.red()}Too Low!\n"); IO.puts("#{IO.ANSI.default_color()}Try one more time");play(computer_choise, pid)
-      player_choise > computer_choise -> IO.puts("#{IO.ANSI.blue()}Too High!\n"); IO.puts("#{IO.ANSI.default_color()}Try one more time"); play(computer_choise, pid)
-      player_choise == computer_choise -> IO.puts("#{IO.ANSI.green()}You Won!#{IO.ANSI.default_color()}"); Games.Score.add_points(pid, 5); Games.main(pid);
-    end
-
 
   end
 end
