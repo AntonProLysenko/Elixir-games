@@ -13,7 +13,7 @@ defmodule Games.RockPaperScissors do
 
     player_choise =
       case short_player_choise do
-        "stop"-> Games.main(pid)
+        "stop"-> "stop"
         "r" -> "rock"
         "p" ->"paper"
         "s" -> "scissors"
@@ -30,7 +30,8 @@ defmodule Games.RockPaperScissors do
       {"paper", "rock"}-> IO.puts("#{IO.ANSI.red()}You lose!\n#{IO.ANSI.default_color} #{ai_choise} beats #{player_choise}.");Games.main(pid)
       {"scissors", "paper"}-> IO.puts("#{IO.ANSI.red()}You lose!\n#{IO.ANSI.default_color} #{ai_choise} beats #{player_choise}.");Games.main(pid)
       {"rock", "scissors"}-> IO.puts("#{IO.ANSI.red()}You lose!\n#{IO.ANSI.default_color} #{ai_choise} beats #{player_choise}.");Games.main(pid)
-       {_, _}-> IO.puts("#{IO.ANSI.blue()}Draw!#{IO.ANSI.default_color}");Games.main(pid)
+      {_, "stop"}-> Games.main(pid)
+      {_, _}-> IO.puts("#{IO.ANSI.blue()}Draw!#{IO.ANSI.default_color}");Games.main(pid)
     end
 
   end
