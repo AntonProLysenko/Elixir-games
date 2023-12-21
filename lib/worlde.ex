@@ -14,18 +14,18 @@ defmodule Games.Worlde do
       # "asdfg"
   """
 
-  def get_user_data do
+  def get_user_data(pid) do
     guess = IO.gets("Guess a five-letter word: ")
     cond do
       guess == "stop\n" ->
-        Games.main(1)
+        Games.main(pid)
 
       String.length(guess) < 6 || String.length(guess) > 6 ->
         IO.puts(
           "#{IO.ANSI.red()}\nEnter a string exactly of 5 letters! #{IO.ANSI.default_color()}\n"
         )
 
-        get_user_data()
+        get_user_data(pid)
 
       String.length(guess) === 6 ->
         guess
@@ -125,7 +125,7 @@ defmodule Games.Worlde do
       gives winning and loosing statements
   """
 
-  def play(lifes \\ @lifes, answer \\ generate_string()) do
+  def play(lifes \\ @lifes, answer \\ generate_string(), pid) do
     if lifes >= 1 do
       IO.puts("\n-----======#{IO.ANSI.red()} Wordle #{IO.ANSI.default_color()}======----- \n")
 
@@ -137,7 +137,7 @@ defmodule Games.Worlde do
 
       IO.puts("Lifes: " <> IO.ANSI.red() <> lifes_symbols <> IO.ANSI.default_color())
 
-      guess = String.to_charlist(String.slice(get_user_data(), 0..4))
+      guess = String.to_charlist(String.slice(get_user_data(pid), 0..4))
 
       colors = feedback(answer, guess)
       indexed_colors = Enum.with_index(colors)
@@ -160,15 +160,16 @@ defmodule Games.Worlde do
 
       if :yellow in colors || :grey in colors do
         remain_lifes = lifes - 1
-        play(remain_lifes, answer)
+        play(remain_lifes, answer, pid)
       else
         IO.puts("#{IO.ANSI.green()} \nYou Won! #{IO.ANSI.default_color()}\n")
-        Games.main(1)
+        Games.Score.add_points(pid, 25)
+        Games.main(pid)
       end
     else
       IO.puts("#{IO.ANSI.red()}\nGame Over! #{IO.ANSI.default_color()}\n")
       IO.puts("The Answer was:"<>"#{IO.ANSI.green()} #{to_string(answer)}")
-      Games.main(1)
+      Games.main(pid)
     end
   end
 end

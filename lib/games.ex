@@ -14,6 +14,7 @@ defmodule Games do
   """
 
    defmodule Score do
+    #Calculates and stores a score
     use GenServer
     def start() do
       GenServer.start_link(__MODULE__, 0)
@@ -39,12 +40,24 @@ defmodule Games do
 
     @impl true
     def handle_cast({:add_points, points}, score) do
-      {:noreply, score+points}
+      new_score = score+points
+      {:noreply, new_score}
+      # IO.inspect(new_score, label: "FiredCast" )
     end
   end
 
-  def main(_args) do
-    {:ok, pid} = Score.start()
+
+
+
+  def main(state\\1) do
+    #Starting score process
+    {:ok, pid}  =
+      if state == 1 do
+        Score.start()
+      else
+        {:ok, state}
+      end
+
     IO.puts("\n\n\n\n#{IO.ANSI.blue_background(); IO.ANSI.font_9()}-----======#{IO.ANSI.green()} Welcome #{IO.ANSI.red()}To Anton's #{IO.ANSI.yellow()}Game Pack! #{IO.ANSI.default_color()}======----- \n")
     player_input = IO.gets(
       "\n\nWhat game would you like to play?
@@ -55,20 +68,14 @@ defmodule Games do
         enter 'stop' to exit
         enter 'score' to view your corrent score
         ")
-
-    game =
-      case player_input do
-        "1\n" -> elem(Integer.parse(player_input),0)
-        "2\n" -> elem(Integer.parse(player_input),0)
-        "3\n" -> elem(Integer.parse(player_input),0)
-        "stop\n" -> player_input
-      end
-      #This was required in the asigment!!!
-    case game do
-      1 -> play(["--game=1"], pid)
-      2 -> play(["--game=2"], pid)
-      3 -> play(["--game=3"], pid)
-      "stop\n"  -> IO.puts("Stoped!")
+    #This was required in the asigment!!!
+    case player_input do
+      "1\n" -> play(["--game=1"], pid)
+      "2\n" -> play(["--game=2"], pid)
+      "3\n" -> play(["--game=3"], pid)
+      "4\n" -> Games.Score.add_points(pid, 1000); Games.Score.get_score(pid); Games.main(pid)
+      "stop\n" -> IO.puts("Stoped!")
+      "score\n" -> IO.puts("==============================================\n Your Score is #{Games.Score.get_score(pid)}\n=============================================="); Games.main(pid)
     end
 
   end
@@ -79,11 +86,10 @@ defmodule Games do
   def play(args, pid) do
     #Compleatly useles function, but it was a required in the asigment
     {opts, _word, _error} = OptionParser.parse(args, switches: [game: :integer])
-    IO.inspect(pid, label: "pid")
     case opts[:game] do
-      1 -> Games.GuessingGame.play()
-      2 -> Games.RockPaperScissors.play()
-      3 -> Games.Worlde.play()
+      1 -> Games.GuessingGame.play(pid)
+      2 -> Games.RockPaperScissors.play(pid)
+      3 -> Games.Worlde.play(pid)
       _ -> IO.inspect("Error #{opts[:game]}")
     end
 
