@@ -4,9 +4,7 @@ defmodule GamesTest do
   use ExUnit.Case
   doctest Games.Worlde
 
-  test "greets the world" do
-    assert Games.hello() == :world
-  end
+
 
   test "gives color array" do
     assert Games.Worlde.feedback(~c"aaaaa", ~c"aaaaa") == [:green, :green, :green, :green, :green]
@@ -20,8 +18,22 @@ defmodule GamesTest do
     refute Games.Worlde.used_up?(0, ?a, ~c"abdce", ~c"edcba")
     refute Games.Worlde.used_up?(3, ?a, ~c"xaaaa", ~c"aaabb")
   end
-
   # test "gives list of indexes of all matching chars" do
   #   # assert Games.Worlde.find_idxs(, ~c""")
   # end
+end
+
+defmodule ScoreTest do
+  use ExUnit.Case
+  doctest Games.Score
+
+    test "score tracking" do
+    {:ok, pid} = Games.Score.start()
+    assert Games.Score.get_score(pid) == 0
+    Games.Score.add_points(pid, 10)
+    Games.Score.add_points(pid ,10)
+    assert Games.Score.get_score(pid) == 20
+
+
+  end
 end
