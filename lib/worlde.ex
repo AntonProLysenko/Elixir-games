@@ -16,18 +16,20 @@ defmodule Games.Worlde do
 
   def get_user_data(pid) do
     guess = IO.gets("Guess a five-letter word: ")
-    cond do
-      guess == "stop\n"  ->
-        Games.main(pid)
-        throw(:break)
 
+    cond do
+      # guess == "stop\n"  ->
+      #   Games.main(pid)
+      #   throw(:break)
+      String.length(guess) === 6 or guess == "stop\n" -> guess
       #String length is 6 since added /n at the end
-      String.length(guess) === 6 -> guess
       String.length(guess) < 6 || String.length(guess) > 6 ->
         IO.puts(
           "#{IO.ANSI.red()}\nEnter a string exactly of 5 letters! #{IO.ANSI.default_color()}\n"
         )
         get_user_data(pid)
+
+
     end
   end
 
@@ -106,14 +108,15 @@ defmodule Games.Worlde do
 
       IO.puts("Lifes: " <> IO.ANSI.red() <> lifes_symbols <> IO.ANSI.default_color())
 
+      user_input = get_user_data(pid)
+
       guess =
-        if get_user_data(pid) !="stop" do
-          String.to_charlist(String.slice(get_user_data(pid), 0..4))
+        if user_input != "stop\n" do
+            String.to_charlist(String.slice(user_input, 0..4))
         else
-          IO.puts("ELSE!!!")
-          IO.inspect(get_user_data(pid))
-          throw(:break)
-          # play(0, answer, pid)
+          Games.main(pid)
+          # throw(:break)
+          String.to_charlist(String.slice("none", 0..4))
         end
 
       colors = feedback(answer, guess)
@@ -133,16 +136,20 @@ defmodule Games.Worlde do
           end
         end)
 
-      IO.puts(painted)
-
-      if :yellow in colors || :grey in colors do
-        remain_lifes = lifes - 1
-        play(remain_lifes, answer, pid)
-      else
-        IO.puts("#{IO.ANSI.green()} \nYou Won! #{IO.ANSI.default_color()}\n")
-        Games.Score.add_points(pid, 25)
-        Games.main(pid)
+      #preventing to continue the game in case if stoped
+      if user_input != "stop\n" do
+        IO.puts(painted)
+        if :yellow in colors || :grey in colors do
+          remain_lifes = lifes - 1
+          play(remain_lifes, answer, pid)
+        else
+          IO.puts("#{IO.ANSI.green()} \nYou Won! #{IO.ANSI.default_color()}\n")
+          Games.Score.add_points(pid, 25)
+          Games.main(pid)
+        end
       end
+
+
     else
       IO.puts("#{IO.ANSI.red()}\nGame Over! #{IO.ANSI.default_color()}\n")
       IO.puts("The Answer was:"<>"#{IO.ANSI.green()} #{to_string(answer)}#{IO.ANSI.default_color()}")
