@@ -17,18 +17,17 @@ defmodule Games.Worlde do
   def get_user_data(pid) do
     guess = IO.gets("Guess a five-letter word: ")
     cond do
-      guess == "stop\n" ->
+      guess == "stop\n"  ->
         Games.main(pid)
+        throw(:break)
 
+      #String length is 6 since added /n at the end
+      String.length(guess) === 6 -> guess
       String.length(guess) < 6 || String.length(guess) > 6 ->
         IO.puts(
           "#{IO.ANSI.red()}\nEnter a string exactly of 5 letters! #{IO.ANSI.default_color()}\n"
         )
-
         get_user_data(pid)
-
-      String.length(guess) === 6 ->
-        guess
     end
   end
 
@@ -89,36 +88,6 @@ defmodule Games.Worlde do
     guess_occurrences > answer_occurrences
   end
 
-  # defp find_idxs(guess, answer, return \\ [])
-
-  # defp find_idxs([], _, return), do: return
-
-  # # defp find_idxs([_ahd | atl], answer, return) when length(answer)==0, do: find_idxs(atl, answer, return)
-  # # defp find_idxs(guess,[] = answer, return), do: find_idxs(guess, answer, return )
-  # defp find_idxs(_guess, [], return), do: return
-
-  # defp find_idxs([ghd | gtl], answer = [ahd | atl], return) do
-
-
-  #   # if answer == [] do
-  #   #   find_idxs(gtl, [ahd| atl], return)
-  #   # end
-
-  #   cond do
-  #     elem(ahd, 0) == ghd ->
-  #       IO.puts("MATCH!!!")
-  #       IO.puts(elem(ahd, 1))
-  #       # elem(ahd,1)
-  #       find_idxs(gtl, atl, return ++ [elem(ahd, 1)])
-
-  #     elem(ahd, 0) !== ghd ->
-  #       find_idxs([ghd | gtl], atl, return)
-  #   end
-
-  #   return
-  # end
-
-
 
   @doc """
       function that manage and runs the whole game
@@ -137,7 +106,15 @@ defmodule Games.Worlde do
 
       IO.puts("Lifes: " <> IO.ANSI.red() <> lifes_symbols <> IO.ANSI.default_color())
 
-      guess = String.to_charlist(String.slice(get_user_data(pid), 0..4))
+      guess =
+        if get_user_data(pid) !="stop" do
+          String.to_charlist(String.slice(get_user_data(pid), 0..4))
+        else
+          IO.puts("ELSE!!!")
+          IO.inspect(get_user_data(pid))
+          throw(:break)
+          # play(0, answer, pid)
+        end
 
       colors = feedback(answer, guess)
       indexed_colors = Enum.with_index(colors)
@@ -168,7 +145,7 @@ defmodule Games.Worlde do
       end
     else
       IO.puts("#{IO.ANSI.red()}\nGame Over! #{IO.ANSI.default_color()}\n")
-      IO.puts("The Answer was:"<>"#{IO.ANSI.green()} #{to_string(answer)}")
+      IO.puts("The Answer was:"<>"#{IO.ANSI.green()} #{to_string(answer)}#{IO.ANSI.default_color()}")
       Games.main(pid)
     end
   end

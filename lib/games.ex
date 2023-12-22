@@ -42,7 +42,6 @@ defmodule Games do
     def handle_cast({:add_points, points}, score) do
       new_score = score+points
       {:noreply, new_score}
-      # IO.inspect(new_score, label: "FiredCast" )
     end
   end
 
@@ -53,14 +52,16 @@ defmodule Games do
     #Starting score process
     {:ok, pid}  =
       if state == 1 do
+        IO.puts("\n\n\n\n#{IO.ANSI.blue_background(); IO.ANSI.font_9()}-----======#{IO.ANSI.green()} Welcome #{IO.ANSI.red()}To Anton's #{IO.ANSI.yellow()}Game Pack! #{IO.ANSI.default_color()}======----- \n\n")
         Score.start()
       else
         {:ok, state}
       end
 
-    IO.puts("\n\n\n\n#{IO.ANSI.blue_background(); IO.ANSI.font_9()}-----======#{IO.ANSI.green()} Welcome #{IO.ANSI.red()}To Anton's #{IO.ANSI.yellow()}Game Pack! #{IO.ANSI.default_color()}======----- \n")
+    # IO.puts("\n\n\n\n#{IO.ANSI.blue_background(); IO.ANSI.font_9()}-----======#{IO.ANSI.green()} Welcome #{IO.ANSI.red()}To Anton's #{IO.ANSI.yellow()}Game Pack! #{IO.ANSI.default_color()}======----- \n")
+
     player_input = IO.gets(
-      "\n\nWhat game would you like to play?
+      "\nWhat game would you like to play?
         1. Guessing Game
         2. Rock Paper Scissors
         3. Wordle
@@ -75,7 +76,7 @@ defmodule Games do
       "3\n" -> play(["--game=3"], pid)
       "4\n" -> Games.Score.add_points(pid, 1000); Games.Score.get_score(pid); Games.main(pid)
       "stop\n" -> IO.puts("Stoped!")
-      "score\n" -> IO.puts("==============================================\n Your Score is #{Games.Score.get_score(pid)}\n=============================================="); Games.main(pid)
+      "score\n" -> IO.puts("\n==============================================\n Your Score is #{Games.Score.get_score(pid)}\n=============================================="); Games.main(pid)
     end
 
   end
