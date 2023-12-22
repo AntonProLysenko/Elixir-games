@@ -110,14 +110,14 @@ defmodule Games.Worlde do
 
       user_input = get_user_data(pid)
 
-      guess =
-        if user_input != "stop\n" do
-            String.to_charlist(String.slice(user_input, 0..4))
-        else
-          Games.main(pid)
-          # throw(:break)
-          String.to_charlist(String.slice("none", 0..4))
-        end
+      guess = String.to_charlist(String.slice(user_input, 0..4))
+        # if user_input != "stop\n" do
+
+        # else
+        #   Games.main(pid)
+        #   # throw(:break)
+        #   String.to_charlist(String.slice("none", 0..4))
+        # end
 
       colors = feedback(answer, guess)
       indexed_colors = Enum.with_index(colors)
@@ -147,6 +147,8 @@ defmodule Games.Worlde do
           Games.Score.add_points(pid, 25)
           Games.main(pid)
         end
+      else
+        Games.main(pid)
       end
 
 
