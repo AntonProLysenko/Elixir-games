@@ -16,8 +16,8 @@ defmodule Games do
    defmodule Score do
     #Calculates and stores a score
     use GenServer
-    def start() do
-      GenServer.start_link(__MODULE__, 0)
+    def start_link(arg\\0) do
+      GenServer.start_link(__MODULE__, arg)
     end
 
     def get_score(pid) do
@@ -53,7 +53,7 @@ defmodule Games do
     {:ok, pid}  =
       if state == 1 do
         IO.puts("\n\n\n\n#{IO.ANSI.blue_background(); IO.ANSI.font_9()}-----======#{IO.ANSI.green()} Welcome #{IO.ANSI.red()}To Anton's #{IO.ANSI.yellow()}Game Pack! #{IO.ANSI.default_color()}======----- \n\n")
-        Score.start()
+        Score.start_link(0)
       else
         {:ok, state}
       end
@@ -74,7 +74,7 @@ defmodule Games do
       "1\n" -> play(["--game=1"], pid)
       "2\n" -> play(["--game=2"], pid)
       "3\n" -> play(["--game=3"], pid)
-      "4\n" -> Games.Score.add_points(pid, 1000); Games.Score.get_score(pid); Games.main(pid)
+      "4\n" -> Games.Score.add_points(pid, 1000); Games.Score.get_score(pid); #Games.main(pid)
       "stop\n" -> IO.puts("Stoped!")
       "score\n" -> IO.puts("\n==============================================\n Your Score is #{Games.Score.get_score(pid)}\n=============================================="); Games.main(pid)
     end

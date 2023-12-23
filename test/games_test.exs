@@ -28,7 +28,7 @@ defmodule ScoreTest do
   doctest Games.Score
 
     test "score tracking" do
-    {:ok, pid} = Games.Score.start()
+    {:ok, pid} = Games.Score.start_link()
     assert Games.Score.get_score(pid) == 0
     Games.Score.add_points(pid, 10)
     Games.Score.add_points(pid ,10)
