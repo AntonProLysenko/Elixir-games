@@ -48,13 +48,21 @@ defmodule Games do
 
 
 
-  def main(state\\1) do
+  def main(state\\[]) do
+    Games.run(state)
+  end
+
+  #state used for determining if the game launced first time or not
+  # if state is not [] than it is not the first launch
+  # [] is a default state provided by escript so I had to use [] instead of any other
+  def run(state\\[]) do
     #Starting score process
     {:ok, pid}  =
-      if state == 1 do
+      if state == [] do
         IO.puts("\n\n\n\n#{IO.ANSI.blue_background(); IO.ANSI.font_9()}-----======#{IO.ANSI.green()} Welcome #{IO.ANSI.red()}To Anton's #{IO.ANSI.yellow()}Game Pack! #{IO.ANSI.default_color()}======----- \n\n")
         Score.start_link(0)
       else
+        # IO.puts("Not starting State")
         {:ok, state}
       end
 
