@@ -66,7 +66,7 @@ defmodule Games do
         {:ok, state}
       end
 
-    # IO.puts("\n\n\n\n#{IO.ANSI.blue_background(); IO.ANSI.font_9()}-----======#{IO.ANSI.green()} Welcome #{IO.ANSI.red()}To Anton's #{IO.ANSI.yellow()}Game Pack! #{IO.ANSI.default_color()}======----- \n")
+
 
     player_input = IO.gets(
       "\nWhat game would you like to play?
@@ -83,7 +83,7 @@ defmodule Games do
       "2\n" -> play(["--game=2"], pid)
       "3\n" -> play(["--game=3"], pid)
       "4\n" -> Games.Score.add_points(pid, 1000); Games.Score.get_score(pid); #Games.main(pid)
-      "stop\n" -> IO.puts("Stoped!")
+      "stop\n" -> IO.puts("\n\n\n\n#{IO.ANSI.blue_background(); IO.ANSI.font_9()}-----======#{IO.ANSI.green()} Thank you #{IO.ANSI.red()}for Playing  Anton's #{IO.ANSI.yellow()}Game Pack! #{IO.ANSI.default_color()}======----- \n Good bye! \n Stoped!")
       "score\n" -> IO.puts("\n==============================================\n Your Score is #{Games.Score.get_score(pid)}\n=============================================="); Games.main(pid)
     end
 
