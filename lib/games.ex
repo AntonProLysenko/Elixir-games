@@ -49,13 +49,10 @@ defmodule Games do
 
 
   def main(state\\[]) do
-    Games.run(state)
-  end
-
   #state used for determining if the game launced first time or not
   # if state is not [] than it is not the first launch
   # [] is a default state provided by escript so I had to use [] instead of any other
-  def run(state\\[]) do
+
     #Starting score process
     {:ok, pid}  =
       if state == [] do
@@ -83,7 +80,7 @@ defmodule Games do
       "2\n" -> play(["--game=2"], pid)
       "3\n" -> play(["--game=3"], pid)
       "4\n" -> Games.Score.add_points(pid, 1000); Games.Score.get_score(pid); #Games.main(pid)
-      "stop\n" -> IO.puts("\n\n\n\n#{IO.ANSI.blue_background(); IO.ANSI.font_9()}-----======#{IO.ANSI.green()} Thank you #{IO.ANSI.red()}for Playing  Anton's #{IO.ANSI.yellow()}Game Pack! #{IO.ANSI.default_color()}======----- \n Good bye! \n Stoped!")
+      "stop\n" -> IO.puts("\n\n\n\n#{IO.ANSI.blue_background(); IO.ANSI.font_9()}-----======#{IO.ANSI.green()} Thank you #{IO.ANSI.red()}for Playing  Anton's #{IO.ANSI.yellow()}Game Pack! #{IO.ANSI.default_color()}======----- \n Good bye!")
       "score\n" -> IO.puts("\n==============================================\n Your Score is #{Games.Score.get_score(pid)}\n=============================================="); Games.main(pid)
     end
 
