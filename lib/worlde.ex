@@ -144,7 +144,7 @@ defmodule Games.Worlde do
           play(remain_lifes, answer, pid)
         else
           IO.puts("#{IO.ANSI.green()} \nYou Won! #{IO.ANSI.default_color()}\n")
-          Games.Score.add_points(pid, 25)
+          Games.Score.add_points(25)
           Games.main(pid)
         end
       else

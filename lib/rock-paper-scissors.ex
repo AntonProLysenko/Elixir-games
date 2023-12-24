@@ -23,9 +23,9 @@ defmodule Games.RockPaperScissors do
 
     case {ai_choise,player_choise} do
 
-      {"rock", "paper"} -> IO.puts("#{IO.ANSI.green()}You win!\n #{IO.ANSI.default_color()}#{player_choise} beats #{ai_choise}.");Games.Score.add_points(pid, 10);Games.main(pid)
-      {"paper", "scissors"}-> IO.puts("#{IO.ANSI.green()}You win!\n #{IO.ANSI.default_color()}#{player_choise} beats #{ai_choise}.");Games.Score.add_points(pid, 10);Games.main(pid)
-      {"scissors", "rock"}-> IO.puts("#{IO.ANSI.green()}You win!\n #{IO.ANSI.default_color()}#{player_choise} beats #{ai_choise}.");Games.Score.add_points(pid, 10);Games.main(pid)
+      {"rock", "paper"} -> IO.puts("#{IO.ANSI.green()}You win!\n #{IO.ANSI.default_color()}#{player_choise} beats #{ai_choise}.");Games.Score.add_points(10);Games.main(pid)
+      {"paper", "scissors"}-> IO.puts("#{IO.ANSI.green()}You win!\n #{IO.ANSI.default_color()}#{player_choise} beats #{ai_choise}.");Games.Score.add_points(10);Games.main(pid)
+      {"scissors", "rock"}-> IO.puts("#{IO.ANSI.green()}You win!\n #{IO.ANSI.default_color()}#{player_choise} beats #{ai_choise}.");Games.Score.add_points(10);Games.main(pid)
 
       {"paper", "rock"}-> IO.puts("#{IO.ANSI.red()}You lose!\n#{IO.ANSI.default_color} #{ai_choise} beats #{player_choise}.");Games.main(pid)
       {"scissors", "paper"}-> IO.puts("#{IO.ANSI.red()}You lose!\n#{IO.ANSI.default_color} #{ai_choise} beats #{player_choise}.");Games.main(pid)

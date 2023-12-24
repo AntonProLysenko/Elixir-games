@@ -14,7 +14,7 @@ defmodule Games.GuessingGame do
       cond do
         player_choise < computer_choise -> IO.puts("#{IO.ANSI.red()}Too Low!\n"); IO.puts("#{IO.ANSI.default_color()}Try one more time");play(computer_choise, pid)
         player_choise > computer_choise -> IO.puts("#{IO.ANSI.blue()}Too High!\n"); IO.puts("#{IO.ANSI.default_color()}Try one more time"); play(computer_choise, pid)
-        player_choise == computer_choise -> IO.puts("#{IO.ANSI.green()}You Won!#{IO.ANSI.default_color()}"); Games.Score.add_points(pid, 5); Games.main(pid);
+        player_choise == computer_choise -> IO.puts("#{IO.ANSI.green()}You Won!#{IO.ANSI.default_color()}"); Games.Score.add_points(5); Games.main(pid);
       end
 
     end
